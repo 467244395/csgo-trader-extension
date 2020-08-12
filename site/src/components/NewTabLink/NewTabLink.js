@@ -1,10 +1,13 @@
-import React from "react";
+import React from 'react';
 
-const newTabLink = (props) => {
-    return  (
-        <a href={props.to} target='_blank' rel='noopener'>
-            {props.children}
-        </a>);
+const newTabLink = ({
+  className, to, children,
+}) => {
+  return (
+    <a href={to} target="_blank" rel="noopener" className={className}>
+      {children}
+    </a>
+  );
 };
 
 export default newTabLink;

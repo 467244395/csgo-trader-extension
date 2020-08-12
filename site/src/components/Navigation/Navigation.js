@@ -1,72 +1,59 @@
-import React from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap'
-
-import './Navigation.css';
+import React from "react";
+import { Navbar, Nav } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import logo from "../../assets/images/cstlogo48.png";
+import "./Navigation.css";
+import NewTabLink from "../NewTabLink/NewTabLink";
+import links from "./links";
 
 const navigation = () => {
-    const navItems = [
-        {
-            path: '/changelog/',
-            name: 'Changelog'
-        },
-        {
-            path: '/release-notes/',
-            name: 'Release-Notes'
-        },
-        {
-            path: '/group/',
-            name: 'Steam Group'
-        },
-        {
-            path: '/prices/',
-            name: 'Prices'
-        },
-        {
-            path: '/faq/',
-            name: 'FAQ'
-        }
-    ];
-
-    return  (
-        <Container>
-            <Navbar expand='lg' bg='dark' variant='dark'>
-                <LinkContainer to='/' exact={true} activeClassName='active' key='/'>
-                    <Navbar.Brand>
-                        <img
-                            src='/cstlogo48.png'
-                            className='d-inline-block navlogo'
-                            alt='CSGO Trader Extension logo'
-                        />
-                        CSGO Trader Extension
-                    </Navbar.Brand>
-                </LinkContainer>
-                <Navbar.Toggle aria-controls='responsive-navbar-nav'/>
-                <Navbar.Collapse id='responsive-navbar-nav'>
-                    <Nav className='mr-auto'>
-                        {
-                            navItems.map(navItem => {
-                                return (
-                                    <RouterNavLink to={navItem.path} exact={true} activeClassName='active' key={navItem.path}>
-                                        {navItem.name}
-                                    </RouterNavLink>
-                                )
-                            })
-                        }
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-        </Container>
-    );
+  return (
+    <>
+      <Navbar
+        expand="lg"
+        variant="dark"
+        className="sticky-top nav--shadow nav--dark"
+      >
+        <Navbar.Brand href="https://csgotrader.app">
+          <img
+            src={logo}
+            className="d-inline-block navlogo"
+            alt="CSGO Trader Extension logo"
+          />
+          CSGO Trader Extension
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            {links.map((link) => {
+              return !link.isExternal ? (
+                <RouterNavLink
+                  to={link.path}
+                  exact={false}
+                  activeClassName="active"
+                  key={link.id}
+                >
+                  {link.title}
+                </RouterNavLink>
+              ) : (
+                <NewTabLink to={link.path} className="nav-link" key={link.id}>
+                  {" "}
+                  {link.title}{" "}
+                </NewTabLink>
+              );
+            })}
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
+  );
 };
 
-// workaround from here: https://github.com/react-bootstrap/react-router-bootstrap/issues/242#issuecomment-480330910
+// workaround from here: https://github.com/react-bootstrap/react-linkr-bootstrap/issues/242#issuecomment-480330910
 const RouterNavLink = ({ children, ...props }) => (
-    <LinkContainer {...props}>
-        <Nav.Link active={false}>
-            {children}
-        </Nav.Link>
-    </LinkContainer>
+  <LinkContainer {...props}>
+    <Nav.Link active={false}>{children}</Nav.Link>
+  </LinkContainer>
 );
 
 export default navigation;
